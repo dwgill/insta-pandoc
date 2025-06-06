@@ -188,9 +188,9 @@ ul.task-list li input[type="checkbox"] {
 }
 
 /* For title, author, and date on the cover page */
-h1.title { }
+/* h1.title { }
 p.author { }
-p.date { }
+p.date { } */
 
 nav#toc ol, nav#landmarks ol {
   padding: 0;
