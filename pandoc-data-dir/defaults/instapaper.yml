@@ -1,0 +1,15 @@
+
+standalone: true
+from: epub
+wrap: none
+resource-path:
+  - .
+  - ${USERDATA}
+verbosity: INFO
+table-of-contents: true
+epub-title-page: false
+css: ${.}/../res/instapaper.css
+toc-depth: 1
+epub-cover-image: ${.}/../res/instapaper.png
+filters:
+  - ${.}/../filters/instapaper-epub.lua
