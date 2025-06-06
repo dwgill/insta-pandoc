@@ -1,3 +1,5 @@
+local logging = require 'logging'
+
 --[[
 Instapaper delimits its stories within a epub with span elements with an id="story0.html" etc.
 ]]
@@ -37,10 +39,15 @@ local function split_into_sections(blocks)
         end
     end
 
+    if #section_tables == 1 then
+        logging.warning('Split no sections of Pandoc document')
+    end
+
     -- If we randomly got lucky and found a delimiter
     -- on the first block, we'll have an empty section
     -- at the front of the list
     if #section_tables[1] == 0 then
+        logging.info('Initial section has no content, removing')
         table.remove(section_tables, 1)
     end
 
@@ -58,27 +65,28 @@ occur in the body of a story).
 local function fix_headers_of_section_if_needed(section_blocks)
     local found_first_header = false
 
-    section_blocks = section_blocks
-        :walk({
-            traverse = 'topdown',
-            Header = function(header)
-                if not found_first_header then
-                    found_first_header = true
-                    header.level = 1
-                    header.attr = {
-                        ['section-heading'] = 'true'
-                    }
-                    return header
-                end
-            end
-        }):walk({
-            Header = function(header)
-                if not header.attr.attributes['section-heading'] then
-                    header.level = header.level + 1
-                end
+    section_blocks = section_blocks:walk({
+        traverse = 'topdown',
+        Header = function(header)
+            if not found_first_header then
+                found_first_header = true
+                header.level = 1
+                header.attr = {
+                    ['section-heading'] = 'true'
+                }
                 return header
             end
-        })
+        end
+    })
+
+    section_blocks = section_blocks:walk({
+        Header = function(header)
+            if not header.attr.attributes['section-heading'] then
+                header.level = header.level + 1
+            end
+            return header
+        end
+    })
 
     if found_first_header then
         -- Drop everything prior to the first header
