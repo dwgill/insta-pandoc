@@ -223,27 +223,19 @@ q {
 
 
 h1 {
-  margin: 3em 0 0 0;
   font-size: 1.5em;
-  page-break-before: always;
-  line-height: 150%;
 }
 h2 {
-  margin: 1.5em 0 0 0;
   font-size: 1.3em;
-  line-height: 135%;
 }
 h3 {
-  margin: 1.3em 0 0 0;
   font-size: 1.3em;
   font-style: italic;
 }
 h4 {
-  margin: 1.2em 0 0 0;
   font-size: 1.2em;
 }
 h5 {
-  margin: 1.1em 0 0 0;
   font-size: 1.1em;
   font-style: italic;
 }
