@@ -29,7 +29,7 @@ local function split_into_sections(blocks)
 
     new_section()
 
-    for element in blocks:iter() do
+    for _, element in ipairs(blocks) do
         if element_is_insta_section_delimiter(element) then
             new_section()
         else
@@ -82,7 +82,7 @@ local function fix_headers_of_section_if_needed(section_blocks)
 
     if found_first_header then
         -- Drop everything prior to the first header
-        for el in section_blocks:clone():iter() do
+        for _, el in ipairs(section_blocks:clone()) do
             if el.t == 'Header' then
                 break
             end
@@ -130,7 +130,7 @@ local function filter_para_delete_control_buttons(para)
     local found_archive_all = false
     local found_download_newest = false
 
-    for el in para.content:iter() do
+    for _, el in ipairs(para.content) do
         if el.t == 'Link' then
             found_archive_all = found_archive_all or (
                 pandoc.utils.stringify(el):match('^Archive.*All$')
